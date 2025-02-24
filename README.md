@@ -1,51 +1,57 @@
-🚀 UC1: Employee Payroll Spring Project Initialization
+📄 UC2 - Employee Payroll Service 
 
-📌 Objective
+🚀 Objective
 
-Set up the Employee Payroll Spring Boot Project to handle REST requests from the Employee Payroll UI instead of using JSON Server.
+Implement a basic REST Controller to demonstrate various HTTP methods and establish connectivity.
 
-🛠 Steps Completed
+🛠 Steps Performed
 
-✅ Step 1: Initialized Spring Boot Project
+✅ Created a REST Controller with different endpoints.
 
-Group: com.employee
+✅ Set up basic HTTP methods (GET, POST, PUT, DELETE).
 
-Artifact: employee-payroll
+✅ Tested REST APIs using cURL commands.
 
-Project Type: Maven
 
-Spring Boot Version: 3.x
+📌 Implemented Endpoints
 
-✅ Step 2: Added Dependencies
+HTTP Method	Endpoint	Description
 
-Spring Boot Starter Web 🌐 (For building REST APIs)
+🟢 GET	/employeepayrollservice/	Test connection
 
-Spring Boot Starter Data JPA 🗄 (For database interactions)
+🟢 GET	/employeepayrollservice/get/{id}	Fetch employee by ID
 
-Lombok ✍️ (To reduce boilerplate code)
+🟡 POST	/employeepayrollservice/create	Create a new employee
 
-✅ Step 3: Created Project Structure
+🔵 PUT	/employeepayrollservice/update/{id}	Update employee details
 
-Main Class: EmployeePayrollApplication.java
+🔴 DELETE	/employeepayrollservice/delete/{id}	Delete an employee
 
-Package Structure:
+🖥 cURL Commands for Testing
 
-com.employee
-├── EmployeePayrollApplication.java  (Main entry point)
-├── controller (Will contain API endpoints)
-├── model (Will contain Employee entity)
-├── repository (Will contain database access logic)
-├── service (Will contain business logic)
-├── config (Will contain database configurations)
+# 🌐 Test Connection
 
-✅ Step 4: Configured Basic Application Properties
+curl localhost:8080/employeepayrollservice/ -w "\n"
 
-Defined application.properties for further database configurations.
+# 📄 Get Employee by ID
 
-✅ Step 5: Project Successfully Built and Started
+curl localhost:8080/employeepayrollservice/get/1 -w "\n"
 
-Ran the application using:
+# ➕ Create Employee
 
-mvn spring-boot:run
+curl -X POST localhost:8080/employeepayrollservice/create -w "\n"
 
-Verified that the server starts on port 8080.
+# ✏️ Update Employee
+
+curl -X PUT localhost:8080/employeepayrollservice/update/1 -w "\n"
+
+# 🗑 Delete Employee
+
+curl -X DELETE localhost:8080/employeepayrollservice/delete/1 -w "\n"
+🎯 Outcome
+
+✔️ Successfully established a RESTful service.
+
+✔️ Verified API functionality using cURL.
+
+✅ Next Step: Connect with MySQL Database! 🚀
