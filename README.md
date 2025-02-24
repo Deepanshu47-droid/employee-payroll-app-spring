@@ -1,57 +1,51 @@
-📄 UC2 - Employee Payroll Service 
+📌 UC3 - Employee Payroll App (DTO Implementation)
 
-🚀 Objective
+This update introduces DTO (Data Transfer Object) in the Employee Payroll Application. DTO helps in transferring data between layers while keeping the entity structure separate.
 
-Implement a basic REST Controller to demonstrate various HTTP methods and establish connectivity.
+✅ Features Added in UC3
 
-🛠 Steps Performed
+Introduced EmployeeDTO to handle data transfer.
 
-✅ Created a REST Controller with different endpoints.
+Updated EmployeePayrollController to use DTO for creating and retrieving employees.
 
-✅ Set up basic HTTP methods (GET, POST, PUT, DELETE).
+No Service Layer yet (it will be implemented in UC4).
 
-✅ Tested REST APIs using cURL commands.
+📂 Project Structure
 
+com.payroll.employee_payroll
+│── controller
+│── dto
+│── model
+│── EmployeePayrollApplication.java
 
-📌 Implemented Endpoints
+🔧 Changes in UC3
 
-HTTP Method	Endpoint	Description
+Implemented EmployeeDTO to store only name and salary fields.
 
-🟢 GET	/employeepayrollservice/	Test connection
+Modified EmployeePayrollController to include new endpoints for handling employees using DTO.
 
-🟢 GET	/employeepayrollservice/get/{id}	Fetch employee by ID
+Added createEmployee and getEmployee endpoints for testing DTO functionality.
 
-🟡 POST	/employeepayrollservice/create	Create a new employee
+🚀 API Endpoints
 
-🔵 PUT	/employeepayrollservice/update/{id}	Update employee details
+Method	Endpoint	Description
 
-🔴 DELETE	/employeepayrollservice/delete/{id}	Delete an employee
+POST	/employees/DTO/create	Create an employee using DTO
 
-🖥 cURL Commands for Testing
+GET	/employees/DTO/get/{name}/{salary}	Fetch employee details using path variables
 
-# 🌐 Test Connection
+🏃‍♂️ Testing via CURL
 
-curl localhost:8080/employeepayrollservice/ -w "\n"
+Create an Employee
 
-# 📄 Get Employee by ID
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Raj", "salary": 50000}' http://localhost:8080/employees/DTO/create
 
-curl localhost:8080/employeepayrollservice/get/1 -w "\n"
+Get Employee Details
 
-# ➕ Create Employee
+curl -X GET http://localhost:8080/employees/DTO/get/Raj/50000
 
-curl -X POST localhost:8080/employeepayrollservice/create -w "\n"
+📌 Next Steps
 
-# ✏️ Update Employee
+UC4 will introduce the Service Layer to separate business logic from the controller.
 
-curl -X PUT localhost:8080/employeepayrollservice/update/1 -w "\n"
-
-# 🗑 Delete Employee
-
-curl -X DELETE localhost:8080/employeepayrollservice/delete/1 -w "\n"
-🎯 Outcome
-
-✔️ Successfully established a RESTful service.
-
-✔️ Verified API functionality using cURL.
-
-✅ Next Step: Connect with MySQL Database! 🚀
+Database integration will be added in upcoming use cases.
