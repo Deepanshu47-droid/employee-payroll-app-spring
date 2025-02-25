@@ -5,6 +5,7 @@ import com.payroll.employee_payroll.model.EmployeeEntity;
 import com.payroll.employee_payroll.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
@@ -51,14 +52,46 @@ public class EmployeePayrollController {
         return new EmployeeEntity(new EmployeeDTO(name, salary)); // Returning employee details based on input
     }
 
-    //mappings for uc4
+    //mappings for uc4 implementation of service layer
     @PostMapping("/service/create")
-    public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.createEmployee(employeeDTO);
+    public EmployeeEntity createEmployeeService(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createEmployeeDTO(employeeDTO);
     }
 
     @GetMapping("/service/get/{name}/{salary}")
     public EmployeeEntity getEmployee(@PathVariable String name, @PathVariable double salary) {
-        return employeeService.getEmployee(name, salary);
+        return employeeService.getEmployeeDTO(name, salary);
+    }
+
+    //Mappings for uc5 storing database using List datastructure
+
+    // Create Employee
+    @PostMapping("/service/list/create")
+    public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createEmployee(employeeDTO);
+    }
+    // Get All Employees
+    @GetMapping("/service/list/getAll")
+    public List<EmployeeEntity> getAllEmployees() {
+        return employeeService.getAllEmployees();
+    }
+
+    // Get Employee by Name
+    @GetMapping("/service/list/get/{name}")
+    public EmployeeEntity getEmployeeByName(@PathVariable String name) {
+        return employeeService.getEmployeeByName(name);
+    }
+
+    // Update Employee
+    @PutMapping("/service/list/update/{name}")
+    public EmployeeEntity updateEmployee(@PathVariable String name, @RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.updateEmployee(name, employeeDTO);
+    }
+
+    // Delete Employee
+    @DeleteMapping("/service/list/delete/{name}")
+    public String deleteEmployee(@PathVariable String name) {
+        boolean isDeleted = employeeService.deleteEmployee(name);
+        return isDeleted ? "Employee deleted successfully" : "Employee not found";
     }
 }

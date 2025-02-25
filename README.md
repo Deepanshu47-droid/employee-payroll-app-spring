@@ -1,29 +1,49 @@
-📌 UC4: Introducing Service Layer in Employee Payroll App
+Employee Payroll Application - UC5
 
-🏗 Overview
+📝 Use Case Overview
 
-In UC4, we introduce the Service Layer to separate business logic from the controller. Previously, the controller was responsible for handling both incoming requests and business logic. Now, the service layer will manage the Employee Model while the controller delegates tasks to it.
+In this use case, the service layer stores employee payroll data in memory using a list. Instead of just handling business logic, the service layer now maintains a list of employees. This serves as a temporary step before integrating a database in future use cases.
 
-⚡ Key Updates
+📌 Key Enhancements in UC5
 
-✔ Service Layer Introduction: Handles business logic separately.
+✔ Service Layer with List Implementation: Employee data is stored in a List instead of being created on the fly.
 
-✔ Dependency Injection: Uses @Autowired to inject the service into the controller.
+✔ CRUD Operations Implemented: Ability to create, retrieve, update, and delete employees.
 
-✔ Controller Refactoring: Delegates model handling to the service instead of managing it directly.
+✔ Separation of Concerns: The controller now delegates data management to the service layer.
 
-🔧 Changes in API Endpoints
+✔ Testing API Endpoints via Postman or Swagger: Verify operations such as adding, retrieving, updating, and deleting employees.
+
+
+📂 List Implementation Details
+
+A List<EmployeeEntity> is used in the service layer to store employee data temporarily.
+
+Employees are identified using name as the unique key for retrieval and modification.
+
+No actual database is used yet; data is lost upon server restart.
+
+🔄 API Endpoints Implemented
 
 HTTP Method	Endpoint	Description
 
-POST	/employees/service/create	Creates a new employee using the service layer.
+POST	/employees/service/create	Add a new employee
 
-GET	/employees/service/get/{name}/{salary}	Fetches an employee using the service layer.
+GET	/employees/service/getAll	Retrieve all employees
 
-🎯 Benefits of Service Layer
+GET	/employees/service/get/{name}	Fetch employee details by name
 
-✅ Improved Code Maintainability: Separation of concerns makes it easier to manage.
+PUT	/employees/service/update/{name}	Update employee information
 
-✅ Reusability: Service logic can be reused across different parts of the application.
+DELETE	/employees/service/delete/{name}	Remove an employee from the list
 
-✅ Scalability: Future enhancements become easier with a structured architecture.
+
+🛠️ Testing Points
+
+✔ Postman / Swagger can be used to test the API endpoints.
+
+✔ Verify that employees are added to the list and retrieved correctly.
+
+✔ Test edge cases such as updating or deleting non-existing employees.
+
+✔ Confirm that data is lost upon restarting the application (since no database is used yet).
