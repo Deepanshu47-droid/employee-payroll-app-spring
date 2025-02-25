@@ -2,12 +2,18 @@ package com.payroll.employee_payroll.controller;
 
 import com.payroll.employee_payroll.dto.EmployeeDTO;
 import com.payroll.employee_payroll.model.EmployeeEntity;
+import com.payroll.employee_payroll.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeePayrollController {
+
+    //Autowired object of IEmployeeService Interface
+    @Autowired
+    private IEmployeeService employeeService;
+
 
     //Dummy mappings for uc2
     @GetMapping("/test")
@@ -36,12 +42,23 @@ public class EmployeePayrollController {
 
     //mappings using DTO for uc3
     @PostMapping("/DTO/create")
-    public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public EmployeeEntity createEmployeeDTO(@RequestBody EmployeeDTO employeeDTO) {
         EmployeeEntity employee = new EmployeeEntity(employeeDTO);
         return employee;
     }
     @GetMapping("/DTO/get/{name}/{salary}")
-    public EmployeeEntity getEmployee(@PathVariable String name, @PathVariable double salary) {
+    public EmployeeEntity getEmployeeDTO(@PathVariable String name, @PathVariable double salary) {
         return new EmployeeEntity(new EmployeeDTO(name, salary)); // Returning employee details based on input
+    }
+
+    //mappings for uc4
+    @PostMapping("/service/create")
+    public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createEmployee(employeeDTO);
+    }
+
+    @GetMapping("/service/get/{name}/{salary}")
+    public EmployeeEntity getEmployee(@PathVariable String name, @PathVariable double salary) {
+        return employeeService.getEmployee(name, salary);
     }
 }

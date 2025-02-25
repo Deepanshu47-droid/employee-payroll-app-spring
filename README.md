@@ -1,51 +1,29 @@
-📌 UC3 - Employee Payroll App (DTO Implementation)
+📌 UC4: Introducing Service Layer in Employee Payroll App
 
-This update introduces DTO (Data Transfer Object) in the Employee Payroll Application. DTO helps in transferring data between layers while keeping the entity structure separate.
+🏗 Overview
 
-✅ Features Added in UC3
+In UC4, we introduce the Service Layer to separate business logic from the controller. Previously, the controller was responsible for handling both incoming requests and business logic. Now, the service layer will manage the Employee Model while the controller delegates tasks to it.
 
-Introduced EmployeeDTO to handle data transfer.
+⚡ Key Updates
 
-Updated EmployeePayrollController to use DTO for creating and retrieving employees.
+✔ Service Layer Introduction: Handles business logic separately.
 
-No Service Layer yet (it will be implemented in UC4).
+✔ Dependency Injection: Uses @Autowired to inject the service into the controller.
 
-📂 Project Structure
+✔ Controller Refactoring: Delegates model handling to the service instead of managing it directly.
 
-com.payroll.employee_payroll
-│── controller
-│── dto
-│── model
-│── EmployeePayrollApplication.java
+🔧 Changes in API Endpoints
 
-🔧 Changes in UC3
+HTTP Method	Endpoint	Description
 
-Implemented EmployeeDTO to store only name and salary fields.
+POST	/employees/service/create	Creates a new employee using the service layer.
 
-Modified EmployeePayrollController to include new endpoints for handling employees using DTO.
+GET	/employees/service/get/{name}/{salary}	Fetches an employee using the service layer.
 
-Added createEmployee and getEmployee endpoints for testing DTO functionality.
+🎯 Benefits of Service Layer
 
-🚀 API Endpoints
+✅ Improved Code Maintainability: Separation of concerns makes it easier to manage.
 
-Method	Endpoint	Description
+✅ Reusability: Service logic can be reused across different parts of the application.
 
-POST	/employees/DTO/create	Create an employee using DTO
-
-GET	/employees/DTO/get/{name}/{salary}	Fetch employee details using path variables
-
-🏃‍♂️ Testing via CURL
-
-Create an Employee
-
-curl -X POST -H "Content-Type: application/json" -d '{"name": "Raj", "salary": 50000}' http://localhost:8080/employees/DTO/create
-
-Get Employee Details
-
-curl -X GET http://localhost:8080/employees/DTO/get/Raj/50000
-
-📌 Next Steps
-
-UC4 will introduce the Service Layer to separate business logic from the controller.
-
-Database integration will be added in upcoming use cases.
+✅ Scalability: Future enhancements become easier with a structured architecture.
