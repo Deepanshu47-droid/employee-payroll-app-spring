@@ -1,49 +1,75 @@
-Employee Payroll Application - UC5
+🚀 Use Case 6: Implementing Lombok for Getters and Setters
 
-📝 Use Case Overview
+Objective
 
-In this use case, the service layer stores employee payroll data in memory using a list. Instead of just handling business logic, the service layer now maintains a list of employees. This serves as a temporary step before integrating a database in future use cases.
+In this use case, we optimize the Employee Payroll application by using Lombok to generate getters, setters, constructors, and other boilerplate code automatically.
 
-📌 Key Enhancements in UC5
+Key Features Implemented
 
-✔ Service Layer with List Implementation: Employee data is stored in a List instead of being created on the fly.
+✔️ Lombok Integration: Eliminates the need for manually writing getters, setters, constructors, etc.
 
-✔ CRUD Operations Implemented: Ability to create, retrieve, update, and delete employees.
+✔️ Simplified DTO Class: Uses Lombok annotations to handle getters, setters, and constructors.
 
-✔ Separation of Concerns: The controller now delegates data management to the service layer.
+✔️ Reduces Boilerplate Code: Makes the code cleaner and more maintainable.
 
-✔ Testing API Endpoints via Postman or Swagger: Verify operations such as adding, retrieving, updating, and deleting employees.
+Steps to Implement
 
+1️⃣ Add Lombok Dependency to pom.xml
 
-📂 List Implementation Details
+Ensure that Lombok is included in the project dependencies.
 
-A List<EmployeeEntity> is used in the service layer to store employee data temporarily.
+2️⃣ Install Lombok in Your IDE
 
-Employees are identified using name as the unique key for retrieval and modification.
+🔹 For IntelliJ IDEA
 
-No actual database is used yet; data is lost upon server restart.
+Install the Lombok Plugin from the plugin marketplace.
 
-🔄 API Endpoints Implemented
+Enable "Annotation Processing" in settings.
 
-HTTP Method	Endpoint	Description
+Restart IntelliJ & rebuild the project.
 
-POST	/employees/service/create	Add a new employee
+🔹 For Eclipse
 
-GET	/employees/service/getAll	Retrieve all employees
+Download and run the Lombok JAR to install it in Eclipse.
 
-GET	/employees/service/get/{name}	Fetch employee details by name
+Restart Eclipse & rebuild the project.
 
-PUT	/employees/service/update/{name}	Update employee information
+🔹 For VS Code
 
-DELETE	/employees/service/delete/{name}	Remove an employee from the list
+Install the "Lombok Annotations Support" extension from the VS Code Marketplace.
 
+Restart VS Code & rebuild the project.
 
-🛠️ Testing Points
+3️⃣ Modify DTO and Entity Classes
 
-✔ Postman / Swagger can be used to test the API endpoints.
+Remove manually written getters, setters, and constructors.
 
-✔ Verify that employees are added to the list and retrieved correctly.
+Use Lombok annotations to handle these automatically.
 
-✔ Test edge cases such as updating or deleting non-existing employees.
+4️⃣ Update Controller to Use Lombok-based DTO
 
-✔ Confirm that data is lost upon restarting the application (since no database is used yet).
+Modify the controller to utilize the Lombok-optimized DTO and entity classes.
+
+Testing Lombok Functionality
+
+✅ Check if Lombok is Working
+
+After applying Lombok, verify that the getters and setters are generated automatically and can be accessed without explicitly defining them.
+
+Expected Outcome
+
+🎯 Faster Development: No need to manually write getters, setters, or constructors.
+
+🎯 Cleaner Code: Reduces unnecessary boilerplate code.
+
+🎯 Improved Maintainability: Future modifications become easier.
+
+Summary of UC6
+
+Feature	Status
+
+Lombok Dependency	✅ Added in pom.xml
+
+IDE Setup	✅ Installed
+
+Code Refactoring	✅ Applied Lombok annotations
