@@ -94,7 +94,15 @@ public class EmployeePayrollController {
     @PutMapping("/service/list/update/{name}")
     public EmployeeEntity updateEmployee(@PathVariable String name, @RequestBody EmployeeDTO employeeDTO) {
         log.info("Updating Employee: {}", name);
-        return employeeService.updateEmployee(name, employeeDTO);
+
+        EmployeeEntity updatedEmployee = employeeService.updateEmployee(name, employeeDTO);
+
+        if (updatedEmployee == null) {
+            log.warn("Failed to update - Employee not found: {}", name);
+        } else {
+            log.info("Employee updated successfully: {}", updatedEmployee);
+        }
+        return updatedEmployee;
     }
 
     // Delete Employee
@@ -102,6 +110,13 @@ public class EmployeePayrollController {
     public String deleteEmployee(@PathVariable String name) {
         boolean isDeleted = employeeService.deleteEmployee(name);
         log.info("Deleting Employee: {}, Success: {}", name, isDeleted);
+
         return isDeleted ? "Employee deleted successfully" : "Employee not found";
+    }
+
+    @GetMapping("/testLogging")
+    public String testLogging() {
+        employeeService.testLogging();
+        return "Logging has been tested. Check logs for details.";
     }
 }

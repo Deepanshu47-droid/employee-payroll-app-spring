@@ -17,4 +17,5 @@ public interface IEmployeeService {
     public EmployeeEntity getEmployeeByName(String name);
     public EmployeeEntity updateEmployee(String name, EmployeeDTO employeeDTO);
     public boolean deleteEmployee(String name);
+    public void testLogging();
 }
