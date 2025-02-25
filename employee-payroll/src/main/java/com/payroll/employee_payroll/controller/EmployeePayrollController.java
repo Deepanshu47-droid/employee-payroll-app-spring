@@ -5,15 +5,18 @@ import com.payroll.employee_payroll.model.EmployeeEntity;
 import com.payroll.employee_payroll.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
+@Slf4j // Enables logging
 public class EmployeePayrollController {
 
     //Autowired object of IEmployeeService Interface
     @Autowired
     private IEmployeeService employeeService;
+
 
 
     //Dummy mappings for uc2
@@ -55,36 +58,42 @@ public class EmployeePayrollController {
     //mappings for uc4 implementation of service layer
     @PostMapping("/service/create")
     public EmployeeEntity createEmployeeService(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("Creating Employee using service layer: {}", employeeDTO);
         return employeeService.createEmployeeDTO(employeeDTO);
     }
 
     @GetMapping("/service/get/{name}/{salary}")
     public EmployeeEntity getEmployee(@PathVariable String name, @PathVariable double salary) {
+        log.info("Fetching Employee using service layer: Name = {}, Salary = {}", name, salary);
         return employeeService.getEmployeeDTO(name, salary);
     }
 
-    //Mappings for uc5 storing database using List datastructure
+    //Mappings for uc5 storing database using List data structure
 
     // Create Employee
     @PostMapping("/service/list/create")
     public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("Creating Employee: {}", employeeDTO);
         return employeeService.createEmployee(employeeDTO);
     }
     // Get All Employees
     @GetMapping("/service/list/getAll")
     public List<EmployeeEntity> getAllEmployees() {
+        log.info("Fetching all employees...");
         return employeeService.getAllEmployees();
     }
 
     // Get Employee by Name
     @GetMapping("/service/list/get/{name}")
     public EmployeeEntity getEmployeeByName(@PathVariable String name) {
+        log.info("Fetching Employee with Name: {}", name);
         return employeeService.getEmployeeByName(name);
     }
 
     // Update Employee
     @PutMapping("/service/list/update/{name}")
     public EmployeeEntity updateEmployee(@PathVariable String name, @RequestBody EmployeeDTO employeeDTO) {
+        log.info("Updating Employee: {}", name);
         return employeeService.updateEmployee(name, employeeDTO);
     }
 
@@ -92,6 +101,7 @@ public class EmployeePayrollController {
     @DeleteMapping("/service/list/delete/{name}")
     public String deleteEmployee(@PathVariable String name) {
         boolean isDeleted = employeeService.deleteEmployee(name);
+        log.info("Deleting Employee: {}, Success: {}", name, isDeleted);
         return isDeleted ? "Employee deleted successfully" : "Employee not found";
     }
 }

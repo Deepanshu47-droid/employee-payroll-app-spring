@@ -1,75 +1,80 @@
-🚀 Use Case 6: Implementing Lombok for Getters and Setters
+UC7: Implementing Logging using Lombok in Employee Payroll App
 
 Objective
 
-In this use case, we optimize the Employee Payroll application by using Lombok to generate getters, setters, constructors, and other boilerplate code automatically.
+This use case introduces logging in the Employee Payroll Application using Lombok's @Slf4j annotation. Logging helps in tracking application flow, debugging issues, and monitoring performance.
 
-Key Features Implemented
+Key Features
 
-✔️ Lombok Integration: Eliminates the need for manually writing getters, setters, constructors, etc.
+Enable Logging using Lombok: The @Slf4j annotation is used at the class level to automatically provide a logger instance.
 
-✔️ Simplified DTO Class: Uses Lombok annotations to handle getters, setters, and constructors.
+Log Important Events: Logging statements are added to service methods to track operations such as employee creation, retrieval, updating, and deletion.
 
-✔️ Reduces Boilerplate Code: Makes the code cleaner and more maintainable.
+Different Logging Levels: The logs include different levels like INFO, DEBUG, and ERROR for better tracing.
+
+Configure Logging in application.properties:
+
+Logging behavior can be adjusted based on environment profiles (dev, prod, etc.).
+
+Logs can be directed to the console or a file as required.
 
 Steps to Implement
+1. 
+2. Add Lombok Dependency
+   
+3. Ensure that the Lombok dependency is added to pom.xml:
 
-1️⃣ Add Lombok Dependency to pom.xml
+<dependency>
 
-Ensure that Lombok is included in the project dependencies.
+<groupId>org.projectlombok</groupId>
 
-2️⃣ Install Lombok in Your IDE
+<artifactId>lombok</artifactId>
 
-🔹 For IntelliJ IDEA
+<version>1.18.26</version>
 
-Install the Lombok Plugin from the plugin marketplace.
+<scope>provided</scope>
 
-Enable "Annotation Processing" in settings.
+</dependency>
 
-Restart IntelliJ & rebuild the project.
+2. Enable Lombok in IDE
 
-🔹 For Eclipse
+3. For Eclipse and IntelliJ: Download and run the Lombok JAR file to install Lombok support in the IDE.
+   
+4. For VS Code: Install the Lombok extension from the marketplace.
+     
+5. Use @Slf4j in Service Layer
 
-Download and run the Lombok JAR to install it in Eclipse.
+In the EmployeeService class, add the @Slf4j annotation to enable logging:
 
-Restart Eclipse & rebuild the project.
+4. Configure Logging in application.properties
+   Set the logging level and output settings:
 
-🔹 For VS Code
+# Set the active profile
+spring.profiles.active=dev
 
-Install the "Lombok Annotations Support" extension from the VS Code Marketplace.
+# Logging Configuration
 
-Restart VS Code & rebuild the project.
+logging.level.root=INFO
 
-3️⃣ Modify DTO and Entity Classes
+logging.level.com.payroll=DEBUG
 
-Remove manually written getters, setters, and constructors.
+logging.file.name=logs/app.log
 
-Use Lombok annotations to handle these automatically.
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} - %msg%n
 
-4️⃣ Update Controller to Use Lombok-based DTO
+Testing Logging
+   Run the application and check the logs in the console or the log file (logs/app.log).
 
-Modify the controller to utilize the Lombok-optimized DTO and entity classes.
+Expected Output in Logs (Example)
 
-Testing Lombok Functionality
+2025-02-24 10:15:32 - INFO - Searching for Employee with Name: Raj and Salary: 50000.0
 
-✅ Check if Lombok is Working
+2025-02-24 10:16:12 - INFO - Employee Created: EmployeeEntity{name='Shubham', salary=45000.0}
 
-After applying Lombok, verify that the getters and setters are generated automatically and can be accessed without explicitly defining them.
+Conclusion
 
-Expected Outcome
+Logging is now integrated using Lombok's @Slf4j annotation.
 
-🎯 Faster Development: No need to manually write getters, setters, or constructors.
+All important actions are logged for debugging and monitoring.
 
-🎯 Cleaner Code: Reduces unnecessary boilerplate code.
-
-🎯 Improved Maintainability: Future modifications become easier.
-
-Summary of UC6
-
-Feature	Status
-
-Lombok Dependency	✅ Added in pom.xml
-
-IDE Setup	✅ Installed
-
-Code Refactoring	✅ Applied Lombok annotations
+Logging can be configured dynamically using application.properties.
