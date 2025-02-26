@@ -1,148 +1,66 @@
-Employee Payroll System - UC-9 (Database Operations)
+Employee Payroll System - UC-10 (Validation) ✅
 
-Overview
+Overview 📝
 
-This module (UC-9) provides CRUD operations for managing employee records in the database. The API supports the following operations:
+This update introduces validation for the name field in both Create and Update REST API calls. The goal is to ensure that all employee names follow a proper format and prevent invalid data entry.
 
-Get all employees
+Validation Rules 🚦
 
-Get an employee by ID
+✔️ The name cannot be empty.
 
-Add a new employee
+✔️ The name must start with a capital letter.
 
-Update an existing employee
+✔️ The name must have at least 3 characters.
 
-Delete an employee
+Setup Instructions ⚙️
 
-Technologies Used
+1️⃣ Add the Hibernate Validator dependency to enable validation.
 
-Spring Boot (REST API)
+2️⃣ Apply validation annotations in the DTO class for the name field.
 
-MySQL (Database)
+3️⃣ Modify the controller to enforce validation on incoming requests.
 
-JPA/Hibernate (ORM)
 
-Postman/cURL (API Testing)
+API Endpoints & Testing 🚀
 
-Setup Instructions
+1️⃣ Create Employee (Validation Applied)
 
-1️⃣ Configure Database (MySQL)
+❌ Invalid Request:
 
-Create the database before running the application:
+Name is empty or too short.
+Name does not start with a capital letter.
 
-CREATE DATABASE employee_payroll_db;
-USE employee_payroll_db;
+📢 Response: "Name must start with a capital letter and have at least 3 characters."
 
-2️⃣ Update application.properties
+✅ Valid Request:
 
-Ensure your src/main/resources/application.properties contains:
+Name follows the correct format.
 
-spring.datasource.url=jdbc:mysql://localhost:3306/employee_payroll_db
-spring.datasource.username=root
-spring.datasource.password=your_password
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+📢 Response: Employee added successfully!
 
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
+2️⃣ Update Employee (Validation Applied)
 
-3️⃣ Run the Spring Boot Application
+❌ Invalid Request:
 
-Start the application using:
+Name does not meet validation criteria.
 
-mvn spring-boot:run
+📢 Response: "Invalid name format."
 
-OR
+✅ Valid Request:
 
-java -jar employee-payroll-application.jar
+Name meets the validation requirements.
 
-API Endpoints
+📢 Response: Employee updated successfully!
 
-1️⃣ Get All Employees
+Future Enhancements 🚀
 
-Request:
+🔹 Improve error messages for better clarity.
 
-GET /service/get/all
+🔹 Implement global exception handling to manage validation errors efficiently.
 
-Response:
+🔹 Enhance security with authentication & authorization.
 
-[
-{"id": 1, "name": "Deepanshu", "salary": 50000},
-{"id": 2, "name": "Raj", "salary": 60000}
-]
-
-2️⃣ Get Employee by ID
-
-Request:
-
-GET /service/get/{id}
-
-Example Response:
-
-{"id": 1, "name": "Deepanshu", "salary": 50000}
-
-3️⃣ Add a New Employee
-
-Request:
-
-POST /service/add
-
-Request Body:
-
-{
-"name": "Deepanshu",
-"salary": 50000
-}
-
-Response:
-
-{"id": 3, "name": "Deepanshu", "salary": 50000}
-
-4️⃣ Update an Employee
-
-Request:
-
-PUT /service/update/{id}
-
-Request Body:
-
-{
-"name": "Deepanshu Malviya",
-"salary": 55000
-}
-
-Response:
-
-{"id": 1, "name": "Deepanshu Malviya", "salary": 55000}
-
-5️⃣ Delete an Employee
-
-Request:
-
-DELETE /service/delete/{id}
-
-Response:
-
-"Employee deleted successfully!"
-
-Testing
-
-Use Postman or cURL to test API requests.
-
-Example cURL request to get all employees:
-
-curl -X GET "http://localhost:8080/service/get/all" -H "Accept: application/json"
-
-Future Enhancements
-
-Implement pagination for large data retrieval.
-
-Add error handling for invalid IDs.
-
-Secure API using Spring Security & JWT Authentication.
-
-Author
-
+Author 👨‍💻
 Deepanshu Malviya
 
-✅ Project Completed: UC-9 Database Operations 🚀
+🎉 UC-10 Validation Successfully Implemented! 🚀🔥

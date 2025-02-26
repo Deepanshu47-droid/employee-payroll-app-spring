@@ -3,7 +3,9 @@ package com.payroll.employee_payroll.controller;
 import com.payroll.employee_payroll.dto.EmployeeDTO;
 import com.payroll.employee_payroll.model.EmployeeEntity;
 import com.payroll.employee_payroll.service.IEmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
@@ -68,7 +70,7 @@ public class EmployeePayrollController {
         return employeeService.getEmployeeDTO(name, salary);
     }
 
-    //Mappings for uc5 storing database using List data structure
+    //Mappings for uc5 storing data using List data structure
 
     // Create Employee
     @PostMapping("/service/list/create")
@@ -121,35 +123,39 @@ public class EmployeePayrollController {
     }
 
 
-    // UC-9   (database)
+    // UC-9 (database) and UC-10 (Validation)
     // ✅ 1. Get all employees
     @GetMapping("/service/get/all")
-    public List<EmployeeEntity> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<EmployeeEntity>> getAllEmployees() {
+
+        return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
     // ✅ 2. Get an employee by ID
     @GetMapping("/service/get/{id}")
-    public EmployeeEntity getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<EmployeeEntity> getEmployeeById(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
-    // ✅ 3. Add a new employee
+    // ✅ 3. Add a new employee with validation
     @PostMapping("/service/add")
-    public EmployeeEntity addEmployee(@RequestBody EmployeeEntity employee) {
-        return employeeService.addEmployee(employee);
+    public ResponseEntity<EmployeeEntity> addEmployee(@Valid @RequestBody EmployeeEntity employee) {
+        log.info("Adding Employee: {}", employee);
+        return ResponseEntity.ok(employeeService.addEmployee(employee));
     }
 
-    // ✅ 4. Update an employee
+    // ✅ 4. Update an employee with validation
     @PutMapping("/service/update/{id}")
-    public EmployeeEntity updateEmployee(@PathVariable Long id, @RequestBody EmployeeEntity employee) {
-        return employeeService.updateEmployee(id, employee);
+    public ResponseEntity<EmployeeEntity> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeEntity employee) {
+        log.info("Updating Employee with ID: {}", id);
+        return ResponseEntity.ok(employeeService.updateEmployee(id, employee));
     }
 
     // ✅ 5. Delete an employee
     @DeleteMapping("/service/delete/{id}")
-    public String deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         boolean isDeleted = employeeService.deleteEmployee(id);
-        return isDeleted ? "Employee deleted successfully!" : "Employee not found!";
+        return isDeleted ? ResponseEntity.ok("Employee deleted successfully!") :
+                ResponseEntity.badRequest().body("Employee not found!");
     }
 }
