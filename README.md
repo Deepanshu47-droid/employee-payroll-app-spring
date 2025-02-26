@@ -1,66 +1,59 @@
-Employee Payroll System - UC-10 (Validation) ✅
+📌 UC11 - User-Friendly Error Response for Validation Failures
 
-Overview 📝
+📖 Overview
 
-This update introduces validation for the name field in both Create and Update REST API calls. The goal is to ensure that all employee names follow a proper format and prevent invalid data entry.
+In this use case, we implement custom exception handling to provide clear and structured error messages when validation fails.
 
-Validation Rules 🚦
+🛠 Steps to Implement
 
-✔️ The name cannot be empty.
+1️⃣ Create a Global Exception Handler
 
-✔️ The name must start with a capital letter.
+Add a class named GlobalExceptionHandler in the com.payroll.employee_payroll.exception package.
 
-✔️ The name must have at least 3 characters.
+Use @RestControllerAdvice so Spring Boot can automatically handle exceptions.
 
-Setup Instructions ⚙️
+2️⃣ Define Validation Exception Handling
 
-1️⃣ Add the Hibernate Validator dependency to enable validation.
+Create a method annotated with @ExceptionHandler(MethodArgumentNotValidException.class).
 
-2️⃣ Apply validation annotations in the DTO class for the name field.
+Extract validation errors and return a structured JSON response with field-specific messages.
 
-3️⃣ Modify the controller to enforce validation on incoming requests.
+3️⃣ Modify Employee Model with Validation Annotations
+
+Apply @NotBlank, @Positive, @Min or other necessary validation annotations in the Employee model.
 
 
-API Endpoints & Testing 🚀
+4️⃣ Ensure @Valid is Used in Controller
 
-1️⃣ Create Employee (Validation Applied)
+In the EmployeeController, modify the @PostMapping method to enforce validation:
 
-❌ Invalid Request:
+5️⃣ Test with Invalid Data 🚨
 
-Name is empty or too short.
-Name does not start with a capital letter.
+🔹 Invalid Input:
+{
+"name": "",
+"salary": -5000
+}
 
-📢 Response: "Name must start with a capital letter and have at least 3 characters."
+🔹 Expected Response:
 
-✅ Valid Request:
+"message": "Validation failed. Check the errors field for details.",
+"errors": {
+"name": "Name must start with a capital letter and have at least 3 characters",
+"salary": "Salary must be at least 10000"
+},
+"timestamp": "2025-02-26T19:55:12.5830392",
+"status": 400
+}
 
-Name follows the correct format.
+This response helps users understand what went wrong and how to fix it. 🛠️
 
-📢 Response: Employee added successfully!
-
-2️⃣ Update Employee (Validation Applied)
-
-❌ Invalid Request:
-
-Name does not meet validation criteria.
-
-📢 Response: "Invalid name format."
-
-✅ Valid Request:
-
-Name meets the validation requirements.
-
-📢 Response: Employee updated successfully!
-
-Future Enhancements 🚀
+🎯 Future Enhancements
 
 🔹 Improve error messages for better clarity.
 
-🔹 Implement global exception handling to manage validation errors efficiently.
+🔹 Implement global exception handling for other error types (e.g., NullPointerException).
 
 🔹 Enhance security with authentication & authorization.
 
-Author 👨‍💻
-Deepanshu Malviya
 
-🎉 UC-10 Validation Successfully Implemented! 🚀🔥
