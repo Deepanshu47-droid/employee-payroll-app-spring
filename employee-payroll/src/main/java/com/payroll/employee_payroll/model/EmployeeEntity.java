@@ -6,13 +6,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "employees")
 public class EmployeeEntity {
 
@@ -22,10 +25,6 @@ public class EmployeeEntity {
 
     private String name;
     private double salary;
-
-    // Default Constructor
-    public EmployeeEntity() {
-    }
 
     // Constructor using DTO
     public EmployeeEntity(EmployeeDTO employeeDTO) {

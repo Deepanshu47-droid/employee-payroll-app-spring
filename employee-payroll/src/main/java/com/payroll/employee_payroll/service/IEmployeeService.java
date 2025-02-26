@@ -8,14 +8,20 @@ import java.util.List;
 
 public interface IEmployeeService {
 
+
     final List<EmployeeEntity> employeeList = new ArrayList<>();
 
     EmployeeEntity createEmployeeDTO(EmployeeDTO employeeDTO);
     EmployeeEntity getEmployeeDTO(String name, double salary);
-    public EmployeeEntity createEmployee(EmployeeDTO employeeDTO);
-    public List<EmployeeEntity> getAllEmployees();
-    public EmployeeEntity getEmployeeByName(String name);
-    public EmployeeEntity updateEmployee(String name, EmployeeDTO employeeDTO);
-    public boolean deleteEmployee(String name);
+    public EmployeeEntity createEmployeeList(EmployeeDTO employeeDTO);
+    public List<EmployeeEntity> getAllEmployeesList();
+    public EmployeeEntity getEmployeeByNameList(String name);
+    public EmployeeEntity updateEmployeeList(String name, EmployeeDTO employeeDTO);
+    public boolean deleteEmployeeList(String name);
     public void testLogging();
+    public List<EmployeeEntity> getAllEmployees();
+    public EmployeeEntity addEmployee(EmployeeEntity employee);
+    public EmployeeEntity getEmployeeById(Long id);
+    public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeDetails);
+    public boolean deleteEmployee(Long id);
 }

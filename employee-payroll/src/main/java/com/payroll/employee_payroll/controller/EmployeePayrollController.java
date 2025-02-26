@@ -74,20 +74,20 @@ public class EmployeePayrollController {
     @PostMapping("/service/list/create")
     public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         log.info("Creating Employee: {}", employeeDTO);
-        return employeeService.createEmployee(employeeDTO);
+        return employeeService.createEmployeeList(employeeDTO);
     }
     // Get All Employees
-    @GetMapping("/service/list/getAll")
-    public List<EmployeeEntity> getAllEmployees() {
+    @GetMapping("/service/list/get/all")
+    public List<EmployeeEntity> getAllEmployeesList() {
         log.info("Fetching all employees...");
-        return employeeService.getAllEmployees();
+        return employeeService.getAllEmployeesList();
     }
 
     // Get Employee by Name
     @GetMapping("/service/list/get/{name}")
-    public EmployeeEntity getEmployeeByName(@PathVariable String name) {
+    public EmployeeEntity getEmployeeByNameList(@PathVariable String name) {
         log.info("Fetching Employee with Name: {}", name);
-        return employeeService.getEmployeeByName(name);
+        return employeeService.getEmployeeByNameList(name);
     }
 
     // Update Employee
@@ -95,7 +95,7 @@ public class EmployeePayrollController {
     public EmployeeEntity updateEmployee(@PathVariable String name, @RequestBody EmployeeDTO employeeDTO) {
         log.info("Updating Employee: {}", name);
 
-        EmployeeEntity updatedEmployee = employeeService.updateEmployee(name, employeeDTO);
+        EmployeeEntity updatedEmployee = employeeService.updateEmployeeList(name, employeeDTO);
 
         if (updatedEmployee == null) {
             log.warn("Failed to update - Employee not found: {}", name);
@@ -108,7 +108,7 @@ public class EmployeePayrollController {
     // Delete Employee
     @DeleteMapping("/service/list/delete/{name}")
     public String deleteEmployee(@PathVariable String name) {
-        boolean isDeleted = employeeService.deleteEmployee(name);
+        boolean isDeleted = employeeService.deleteEmployeeList(name);
         log.info("Deleting Employee: {}, Success: {}", name, isDeleted);
 
         return isDeleted ? "Employee deleted successfully" : "Employee not found";
@@ -118,5 +118,38 @@ public class EmployeePayrollController {
     public String testLogging() {
         employeeService.testLogging();
         return "Logging has been tested. Check logs for details.";
+    }
+
+
+    // UC-9   (database)
+    // ✅ 1. Get all employees
+    @GetMapping("/service/get/all")
+    public List<EmployeeEntity> getAllEmployees() {
+        return employeeService.getAllEmployees();
+    }
+
+    // ✅ 2. Get an employee by ID
+    @GetMapping("/service/get/{id}")
+    public EmployeeEntity getEmployeeById(@PathVariable Long id) {
+        return employeeService.getEmployeeById(id);
+    }
+
+    // ✅ 3. Add a new employee
+    @PostMapping("/service/add")
+    public EmployeeEntity addEmployee(@RequestBody EmployeeEntity employee) {
+        return employeeService.addEmployee(employee);
+    }
+
+    // ✅ 4. Update an employee
+    @PutMapping("/service/update/{id}")
+    public EmployeeEntity updateEmployee(@PathVariable Long id, @RequestBody EmployeeEntity employee) {
+        return employeeService.updateEmployee(id, employee);
+    }
+
+    // ✅ 5. Delete an employee
+    @DeleteMapping("/service/delete/{id}")
+    public String deleteEmployee(@PathVariable Long id) {
+        boolean isDeleted = employeeService.deleteEmployee(id);
+        return isDeleted ? "Employee deleted successfully!" : "Employee not found!";
     }
 }
