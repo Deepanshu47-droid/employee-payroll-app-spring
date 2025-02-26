@@ -153,9 +153,8 @@ public class EmployeePayrollController {
 
     // ✅ 5. Delete an employee
     @DeleteMapping("/service/delete/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
-        boolean isDeleted = employeeService.deleteEmployee(id);
-        return isDeleted ? ResponseEntity.ok("Employee deleted successfully!") :
-                ResponseEntity.badRequest().body("Employee not found!");
+    public void deleteEmployee(@PathVariable Long id) {
+       employeeService.deleteEmployee(id);
+        ResponseEntity.ok("Employee deleted successfully!");
     }
 }

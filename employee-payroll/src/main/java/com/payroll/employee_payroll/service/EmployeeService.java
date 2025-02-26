@@ -1,15 +1,14 @@
 package com.payroll.employee_payroll.service;
 
 import com.payroll.employee_payroll.dto.EmployeeDTO;
+import com.payroll.employee_payroll.exception.EmployeeNotFoundException;
 import com.payroll.employee_payroll.model.EmployeeEntity;
 import com.payroll.employee_payroll.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j // Enables logging
@@ -93,39 +92,40 @@ public class EmployeeService implements IEmployeeService {
     // UC-9
     // Fetch all employees
     public List<EmployeeEntity> getAllEmployees() {
+
         return employeeRepository.findAll();
     }
 
     // Add a new employee
     public EmployeeEntity addEmployee(EmployeeEntity employee) {
+
         return employeeRepository.save(employee);
     }
 
 
     // Get employee by ID
     public EmployeeEntity getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElse(null);
+
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
     }
 
 
     // Update an employee
     public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeDetails) {
-        Optional<EmployeeEntity> optionalEmployee = employeeRepository.findById(id);
-        if (optionalEmployee.isPresent()) {
-            EmployeeEntity employee = optionalEmployee.get();
-            employee.setName(employeeDetails.getName());
-            employee.setSalary(employeeDetails.getSalary());
-            return employeeRepository.save(employee);
-        }
-        return null; // Employee not found
+        EmployeeEntity employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
+
+        employee.setName(employeeDetails.getName());
+        employee.setSalary(employeeDetails.getSalary());
+        return employeeRepository.save(employee);
     }
 
     // Delete an employee
-    public boolean deleteEmployee(Long id) {
-        if (employeeRepository.existsById(id)) {
-            employeeRepository.deleteById(id);
-            return true;
+    public void deleteEmployee(Long id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new EmployeeNotFoundException("Employee with ID " + id + " not found");
         }
-        return false;
+        employeeRepository.deleteById(id);
     }
 }

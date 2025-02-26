@@ -11,6 +11,7 @@ public interface IEmployeeService {
 
     final List<EmployeeEntity> employeeList = new ArrayList<>();
 
+
     EmployeeEntity createEmployeeDTO(EmployeeDTO employeeDTO);
     EmployeeEntity getEmployeeDTO(String name, double salary);
     public EmployeeEntity createEmployeeList(EmployeeDTO employeeDTO);
@@ -23,5 +24,5 @@ public interface IEmployeeService {
     public EmployeeEntity addEmployee(EmployeeEntity employee);
     public EmployeeEntity getEmployeeById(Long id);
     public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeDetails);
-    public boolean deleteEmployee(Long id);
+    public void deleteEmployee(Long id);
 }
