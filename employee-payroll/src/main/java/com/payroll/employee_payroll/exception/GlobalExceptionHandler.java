@@ -1,4 +1,5 @@
 package com.payroll.employee_payroll.exception;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,43 +14,45 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-//        Map<String, String> errors = new HashMap<>();
-//        ex.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-//        return errors;
-//    }
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
         Map<String, Object> errorResponse = new HashMap<>();
 
-        errorResponse.put("timestamp", LocalDateTime.now());  // Add timestamp
-        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());  // HTTP Status Code
-        errorResponse.put("message", "Validation failed. Check the errors field for details.");  // User-friendly message
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
+        errorResponse.put("error", "Bad Request");
+        errorResponse.put("message", "Validation failed. Please check the errors field for details.");
 
         Map<String, String> errors = new HashMap<>();
         for (FieldError error : fieldErrors) {
-            errors.put(error.getField(), error.getDefaultMessage()); // Collect field-specific errors
+            errors.put(error.getField(), error.getDefaultMessage());
         }
         errorResponse.put("errors", errors);
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(errorResponse);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("timestamp", LocalDateTime.now());
-        errorResponse.put("status", HttpStatus.NOT_FOUND.value());
-        errorResponse.put("message", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGlobalException(Exception ex) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred. Please try again later.");
+    }
 
+    private ResponseEntity<Map<String, Object>> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", status.value());
+        errorResponse.put("error", status.getReasonPhrase());
+        errorResponse.put("message", message);
+
+        return ResponseEntity.status(status).body(errorResponse);
+    }
 }
-

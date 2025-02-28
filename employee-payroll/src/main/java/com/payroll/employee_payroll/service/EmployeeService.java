@@ -24,11 +24,29 @@ public class EmployeeService implements IEmployeeService {
         return new EmployeeEntity(employeeDTO);
     }
 
-    @Override
-    public EmployeeEntity getEmployeeDTO(String name, double salary) {
-        log.info("Searching for Employee with Name: {} and Salary: {}", name, salary);
-        return new EmployeeEntity(new EmployeeDTO(name, salary));
+    // ✅ New Method: Update Employee using EmployeeDTO
+    public EmployeeEntity updateEmployeeUsingDTO(Long id, EmployeeDTO employeeDTO) {
+        EmployeeEntity employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with ID " + id + " not found"));
+
+        employee.setName(employeeDTO.getName());
+        employee.setSalary(employeeDTO.getSalary());
+        employee.setGender(employeeDTO.getGender());
+        employee.setStartDate(employeeDTO.getStartDate());
+        employee.setNote(employeeDTO.getNote());
+        employee.setProfilePic(employeeDTO.getProfilePic());
+        employee.setDepartment(employeeDTO.getDepartment());
+
+        log.info("Updating Employee with ID: {}", id);
+        return employeeRepository.save(employee);
     }
+
+
+//    @Override
+//    public EmployeeEntity getEmployeeDTO(String name, double salary) {
+//        log.info("Searching for Employee with Name: {} and Salary: {}", name, salary);
+//        return new EmployeeEntity(new EmployeeDTO(name, salary));
+//    }
 
     // Create Employee
     public EmployeeEntity createEmployeeList(EmployeeDTO employeeDTO) {
@@ -56,11 +74,16 @@ public class EmployeeService implements IEmployeeService {
     // Update Employee
     public EmployeeEntity updateEmployeeList(String name, EmployeeDTO employeeDTO) {
 
-        log.info("Searching and updating the employee with name: {} and salary: {}", employeeDTO.getName(), employeeDTO.getSalary());
+        log.info("Searching and updating the employee with name: {}", employeeDTO.getName());
         for (EmployeeEntity employee : employeeList) {
             if (employee.getName().equalsIgnoreCase(name)) {
                 employee.setName(employeeDTO.getName());
                 employee.setSalary(employeeDTO.getSalary());
+                employee.setGender(employeeDTO.getGender());
+                employee.setNote(employeeDTO.getNote());
+                employee.setStartDate(employeeDTO.getStartDate());
+                employee.setDepartment(employeeDTO.getDepartment());
+                employee.setProfilePic(employeeDTO.getProfilePic());
                 return employee;
             }
         }
@@ -118,6 +141,11 @@ public class EmployeeService implements IEmployeeService {
 
         employee.setName(employeeDetails.getName());
         employee.setSalary(employeeDetails.getSalary());
+        employee.setGender(employeeDetails.getGender());
+        employee.setNote(employeeDetails.getNote());
+        employee.setStartDate(employeeDetails.getStartDate());
+        employee.setDepartment(employeeDetails.getDepartment());
+        employee.setProfilePic(employeeDetails.getProfilePic());
         return employeeRepository.save(employee);
     }
 

@@ -1,21 +1,80 @@
-📌 UC-12 - Employee Not found exception
-🚀 Ability to Throw User-Friendly Errors When Employee ID is Not Found
-🔹 Objective:
-✅ Ensure that meaningful error messages are provided when an invalid employee ID is passed.
+📝 UC14: Payroll DTO Validations
 
-📌 Features:
-Define a custom exception for handling cases where an employee ID is not found.
-Throw this exception when an employee ID does not exist in the database.
-Use @ExceptionHandler in the global exception handler to catch and return a proper error response.
-🔄 Steps Taken:
-1️⃣ Created a custom exception class to handle "Employee Not Found" scenarios.
-2️⃣ Updated service methods to throw this exception when an invalid ID is provided.
-3️⃣ Handled the exception globally to return a structured error response instead of a generic error.
+📌 Overview
 
-🎯 Expected Behavior:
-If an employee ID exists, operations (fetch, update, delete) will proceed normally.
-If an invalid employee ID is provided, a clear error message will be returned instead of system-generated errors.
-🛠️ Future Enhancements:
-🔹 Improve error messages for better clarity.
-🔹 Implement detailed logging to track failed requests.
-🔹 Enhance security with proper exception handling across all endpoints.
+In this update, we ensure proper validation for the Payroll DTO fields:
+
+✅ gender
+
+✅ startDate
+
+✅ note
+
+✅ profilePic
+
+✅ department
+
+These validations apply to both Create and Update REST API calls.
+
+🛠️ Implemented Validations
+
+1️⃣ Gender Validation 🧑‍💼
+
+Must be "Male" or "Female" (other values are rejected).
+
+2️⃣ Start Date Validation 📅
+
+Uses @JsonFormat(pattern = "dd MMM yyyy") to handle date conversion.
+
+Must be past or present (future dates are not allowed).
+
+3️⃣ Note & Profile Picture Validation 🖼️
+
+Cannot be blank (@NotBlank).
+
+Profile Picture must be a valid URL.
+
+4️⃣ Department Validation 🏢
+
+Must be non-empty.
+
+🔹 Logging Enhancements
+
+🔹 Added @Slf4j logging to both the Controller and Service layers for better debugging.
+
+🔍 Example of a Valid JSON Request
+
+{
+"name": "Deepanshu Malviya",
+"gender": "Male",
+"startDate": "15 Feb 2024",
+"note": "Hardworking and dedicated employee",
+"profilePic": "https://example.com/profile-pic.jpg",
+"department": ["Engineering", "Cloud Computing"]
+}
+
+❌ Handling Validation Errors
+
+If any field fails validation, a structured error response is returned:
+
+{
+"timestamp": "2025-02-28T10:30:45",
+"status": 400,
+"error": "Bad Request",
+"message": "Validation failed. Please check the errors field for details.",
+"errors": {
+"gender": "Gender must be either Male or Female",
+"startDate": "Date must be past or present"
+}
+}
+
+✅ Benefits of This Update
+
+🚀 Ensures data integrity and avoids incorrect values.
+
+🔍 Provides clear validation error messages.
+
+📅 Ensures date is correctly formatted and not in the future.
+
+🛠️ Adds logging support for debugging.
+

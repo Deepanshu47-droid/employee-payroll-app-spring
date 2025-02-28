@@ -1,18 +1,16 @@
 package com.payroll.employee_payroll.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.payroll.employee_payroll.dto.EmployeeDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.validation.constraints.Pattern;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter
@@ -33,9 +31,31 @@ public class EmployeeEntity {
     @Min(value = 10000, message = "Salary must be at least 10000")
     private double salary;
 
+    @Pattern(regexp = "Male|Female", message = "Gender must be either Male or Female")
+    private String gender;
+
+    @JsonFormat(pattern = "dd MMM yyyy")
+    @PastOrPresent(message = "Start date must be in the past or present")
+    private LocalDate startDate;
+
+    @NotBlank(message = "Note cannot be blank")
+    private String note;
+
+    @NotBlank(message = "Profile picture URL cannot be blank")
+    private String profilePic;
+
+    @NotEmpty(message = "Department cannot be empty")
+    private List<String> department;
+
+
     // Constructor using DTO
     public EmployeeEntity(EmployeeDTO employeeDTO) {
         this.name = employeeDTO.getName();
         this.salary = employeeDTO.getSalary();
+        this.gender = employeeDTO.getGender();
+        this.startDate = employeeDTO.getStartDate();
+        this.note = employeeDTO.getNote();
+        this.profilePic = employeeDTO.getProfilePic();
+        this.department = employeeDTO.getDepartment();
     }
 }
