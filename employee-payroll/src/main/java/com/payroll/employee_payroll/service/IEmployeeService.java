@@ -13,7 +13,7 @@ public interface IEmployeeService {
 
 
     EmployeeEntity createEmployeeDTO(EmployeeDTO employeeDTO);
-    EmployeeEntity getEmployeeDTO(String name, double salary);
+    //EmployeeEntity getEmployeeDTO(String name, double salary);
     public EmployeeEntity createEmployeeList(EmployeeDTO employeeDTO);
     public List<EmployeeEntity> getAllEmployeesList();
     public EmployeeEntity getEmployeeByNameList(String name);

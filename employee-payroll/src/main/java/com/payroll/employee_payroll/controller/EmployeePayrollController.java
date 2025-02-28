@@ -48,33 +48,33 @@ public class EmployeePayrollController {
 
     //mappings using DTO for uc3
     @PostMapping("/DTO/create")
-    public EmployeeEntity createEmployeeDTO(@RequestBody EmployeeDTO employeeDTO) {
+    public EmployeeEntity createEmployeeDTO(@Valid @RequestBody EmployeeDTO employeeDTO) {
         EmployeeEntity employee = new EmployeeEntity(employeeDTO);
         return employee;
     }
-    @GetMapping("/DTO/get/{name}/{salary}")
-    public EmployeeEntity getEmployeeDTO(@PathVariable String name, @PathVariable double salary) {
-        return new EmployeeEntity(new EmployeeDTO(name, salary)); // Returning employee details based on input
-    }
+//    @GetMapping("/DTO/get/{name}/{salary}")
+//    public EmployeeEntity getEmployeeDTO(@PathVariable String name, @PathVariable double salary) {
+//        return new EmployeeEntity(new EmployeeDTO(name, salary)); // Returning employee details based on input
+//    }
 
     //mappings for uc4 implementation of service layer
     @PostMapping("/service/create")
-    public EmployeeEntity createEmployeeService(@RequestBody EmployeeDTO employeeDTO) {
+    public EmployeeEntity createEmployeeService(@Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Creating Employee using service layer: {}", employeeDTO);
         return employeeService.createEmployeeDTO(employeeDTO);
     }
 
-    @GetMapping("/service/get/{name}/{salary}")
-    public EmployeeEntity getEmployee(@PathVariable String name, @PathVariable double salary) {
-        log.info("Fetching Employee using service layer: Name = {}, Salary = {}", name, salary);
-        return employeeService.getEmployeeDTO(name, salary);
-    }
+//    @GetMapping("/service/get/{name}/{salary}")
+//    public EmployeeEntity getEmployee(@PathVariable String name, @PathVariable double salary) {
+//        log.info("Fetching Employee using service layer: Name = {}, Salary = {}", name, salary);
+//        return employeeService.getEmployeeDTO(name, salary);
+//    }
 
     //Mappings for uc5 storing data using List data structure
 
     // Create Employee
     @PostMapping("/service/list/create")
-    public EmployeeEntity createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public EmployeeEntity createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Creating Employee: {}", employeeDTO);
         return employeeService.createEmployeeList(employeeDTO);
     }
