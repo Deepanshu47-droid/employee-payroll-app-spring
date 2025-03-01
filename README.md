@@ -1,44 +1,73 @@
-🚀 UC15 - Saving Employee Payroll Data to MySQL DB (Already done)
+UC16 - Developing Full CRUD Operations for Employee Payroll with MySQL
 
-## **📌 Overview**
-This use case involves saving employee payroll data to a MySQL database using Spring Boot, Hibernate, and JPA.
+📌 Overview
 
-## **✅ Steps to Implement**
+This use case focuses on implementing full CRUD (Create, Read, Update, Delete) operations for Employee Payroll data using MySQL as the database.
 
-### **1️⃣ Mark Employee Entity with `@Entity` Annotation**
-- Use `@Entity` and `@Table(name = "employee_payroll")` annotations to map the class to a database table.
-- Define columns such as `id`, `name`, `gender`, `startDate`, `note`, `profilePic`, and `department`.
+✅ Steps to Implement
 
-### **2️⃣ Create a Repository Interface**
-- Use `JpaRepository` to interact with the database.
-- Define `EmployeeRepository` with basic CRUD operations.
-- Spring Boot automatically provides the implementation for this interface.
+1️⃣ Create API to Get All Employees
 
-### **3️⃣ Implement Service Layer for Saving Employee Data**
-- Inject `EmployeeRepository` into the service class.
-- Implement a method to save employee details.
-- Use `employeeRepository.save(employee)` to store the data.
-- Add logging to track operations.
+Develop a GET endpoint to fetch all employee records.
 
-### **4️⃣ Configure Database in `application.properties`**
-- Set up MySQL database connection properties such as `spring.datasource.url`, `username`, `password`, and `driver-class-name`.
-- Use `spring.jpa.hibernate.ddl-auto=update` for automatic table creation.
+Use employeeRepository.findAll() to retrieve data from the database.
 
-### **5️⃣ Test the API with a JSON Payload**
-- Use Postman or any REST client to send a POST request with employee data.
-- Ensure that the data is successfully inserted into the MySQL database.
+Return a list of employees as a JSON response.
 
-### **6️⃣ Verify Data in MySQL**
-- Run the SQL query `SELECT * FROM employee_payroll;` to check if the employee records are stored correctly.
-- Validate that all fields are saved as expected.
+2️⃣ Create API to Get Employee by ID
 
-## **🎯 Expected Outcome**
-- Employee data should be successfully stored in the MySQL database.
-- API should return a success response upon saving the data.
-- Database should reflect the inserted records upon verification.
+Develop a GET endpoint that takes an employee ID as a path variable.
 
-## **🔗 Next Steps**
-- Implement update and delete operations for employee payroll data.
-- Add exception handling for database-related errors.
-- Improve validation and logging mechanisms for better debugging.
+Use employeeRepository.findById(id) to fetch employee details.
 
+Return the employee data if found, else handle EmployeeNotFoundException.
+
+3️⃣ Create API to Add New Employee
+
+Develop a POST endpoint to save a new employee record.
+
+Validate the input using annotations like @Valid.
+
+Use employeeRepository.save(employee) to store the data.
+
+Return the saved employee details as a response.
+
+4️⃣ Create API to Update Employee Details
+
+Develop a PUT endpoint to update an existing employee.
+
+Fetch the employee by ID and update fields like name, department, gender, etc.
+
+Use employeeRepository.save(updatedEmployee) to persist changes.
+
+Return the updated employee details.
+
+5️⃣ Create API to Delete Employee
+
+Develop a DELETE endpoint to remove an employee by ID.
+
+Use employeeRepository.deleteById(id) to delete the record.
+
+Return a success message upon successful deletion.
+
+6️⃣ Implement Exception Handling
+
+Use @RestControllerAdvice to handle exceptions like EmployeeNotFoundException.
+
+Return proper error messages when invalid IDs are requested.
+
+7️⃣ Test API Endpoints
+
+Use Postman or a REST client to test CRUD operations.
+
+Validate responses and ensure data is updated correctly in the MySQL database.
+
+Verify database changes using SQL queries.
+
+🎯 Expected Outcome
+
+The API should support all CRUD operations with MySQL.
+
+Proper validation and error handling should be implemented.
+
+Employee records should be correctly stored, retrieved, updated, and deleted from the database.
