@@ -45,6 +45,9 @@ public class EmployeeEntity {
     private String profilePic;
 
     @NotEmpty(message = "Department cannot be empty")
+    @ElementCollection  // Store List as separate rows
+    @CollectionTable(name = "employee_departments", joinColumns = @JoinColumn(name = "employee_id"))
+    @Column(name = "department")
     private List<String> department;
 
 

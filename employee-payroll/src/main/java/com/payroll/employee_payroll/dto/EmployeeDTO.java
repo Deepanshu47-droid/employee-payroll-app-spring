@@ -1,6 +1,10 @@
 package com.payroll.employee_payroll.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +41,9 @@ public class EmployeeDTO {
     private String profilePic;
 
     @NotEmpty(message = "Department cannot be empty")
+    @ElementCollection  // Store List as separate rows
+    @CollectionTable(name = "employee_departments", joinColumns = @JoinColumn(name = "employee_id"))
+    @Column(name = "department")
     private List<String> department;
 
 }

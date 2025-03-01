@@ -25,4 +25,5 @@ public interface IEmployeeService {
     public EmployeeEntity getEmployeeById(Long id);
     public EmployeeEntity updateEmployee(Long id, EmployeeEntity employeeDetails);
     public void deleteEmployee(Long id);
+    public List<EmployeeEntity> getSalesDepartmentEmployees();
 }

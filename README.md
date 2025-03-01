@@ -1,73 +1,80 @@
-UC16 - Developing Full CRUD Operations for Employee Payroll with MySQL
+UC17: Retrieve Employees Belonging to Sales Department
 
-📌 Overview
+Overview
 
-This use case focuses on implementing full CRUD (Create, Read, Update, Delete) operations for Employee Payroll data using MySQL as the database.
+This use case focuses on retrieving all employees who belong to the "Sales" department. Since an employee can belong to multiple departments, a separate table (employee_departments) is used to store department details. This requires using a custom query to filter employees based on their department.
 
-✅ Steps to Implement
+Steps to Implement
 
-1️⃣ Create API to Get All Employees
+1. Understand the Database Structure
 
-Develop a GET endpoint to fetch all employee records.
+employees table stores employee details.
 
-Use employeeRepository.findAll() to retrieve data from the database.
+employee_departments table maintains a many-to-many relationship between employees and departments.
 
-Return a list of employees as a JSON response.
+Example:
 
-2️⃣ Create API to Get Employee by ID
+| employees |
++----+--------+---------------+------------------------------------+-------------------------+---------+------------+
+| id | gender | name          | note                               | profile_pic             | salary  | start_date |
++----+--------+---------------+------------------------------------+-------------------------+---------+------------+
+|  1 | Male   | Malviya ji ji | Hardworking and dedicated employee | example.com/profile.jpg | 2000000 | 2024-01-15 |
++----+--------+---------------+------------------------------------+-------------------------+---------+------------+
 
-Develop a GET endpoint that takes an employee ID as a path variable.
+| employee_departments |
++-------------+-----------------+
+| employee_id | department      |
++-------------+-----------------+
+|           2 | Engineering     |
+|           2 | Cloud Computing |
+|           3 | Sales           |
++-------------+-----------------+
 
-Use employeeRepository.findById(id) to fetch employee details.
+2. Write a Custom Query to Fetch Employees in Sales Department
 
-Return the employee data if found, else handle EmployeeNotFoundException.
+✅ Using JPQL Query
 
-3️⃣ Create API to Add New Employee
+@Query("SELECT e FROM EmployeeEntity e JOIN e.department d WHERE d = 'Sales'")
+List<EmployeeEntity> findEmployeesBySalesDepartment();
 
-Develop a POST endpoint to save a new employee record.
+✅ Using Native SQL Query
 
-Validate the input using annotations like @Valid.
+@Query(value = "SELECT e.* FROM employees e " +
+"JOIN employee_departments d ON e.id = d.employee_id " +
+"WHERE d.department = 'Sales'", nativeQuery = true)
+List<EmployeeEntity> findEmployeesBySalesDepartment();
 
-Use employeeRepository.save(employee) to store the data.
+3. Logging for Better Debugging
 
-Return the saved employee details as a response.
+Add logs to ensure smooth execution and debugging:
 
-4️⃣ Create API to Update Employee Details
+Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
-Develop a PUT endpoint to update an existing employee.
+public List<EmployeeEntity> getSalesEmployees() {
+logger.info("Fetching employees from Sales department...");
+List<EmployeeEntity> employees = employeeRepository.findEmployeesBySalesDepartment();
+logger.info("Found {} employees in Sales department", employees.size());
+return employees;
+}
 
-Fetch the employee by ID and update fields like name, department, gender, etc.
+4. Testing the Query
 
-Use employeeRepository.save(updatedEmployee) to persist changes.
+Run the query and verify that employees from the "Sales" department are correctly retrieved.
 
-Return the updated employee details.
+If no records are found, ensure that the employee_departments table contains valid entries.
 
-5️⃣ Create API to Delete Employee
+Expected Output
 
-Develop a DELETE endpoint to remove an employee by ID.
+When fetching employees from the "Sales" department, the output should be similar to:
 
-Use employeeRepository.deleteById(id) to delete the record.
+ID: 3, Name: John Doe, Department: Sales, Salary: 1500000, Start Date: 2024-01-10
 
-Return a success message upon successful deletion.
+If no employees exist in "Sales", return an empty list.
 
-6️⃣ Implement Exception Handling
+Conclusion
 
-Use @RestControllerAdvice to handle exceptions like EmployeeNotFoundException.
+Successfully retrieves employees belonging to the "Sales" department.
 
-Return proper error messages when invalid IDs are requested.
+Uses custom queries to handle many-to-many relationships.
 
-7️⃣ Test API Endpoints
-
-Use Postman or a REST client to test CRUD operations.
-
-Validate responses and ensure data is updated correctly in the MySQL database.
-
-Verify database changes using SQL queries.
-
-🎯 Expected Outcome
-
-The API should support all CRUD operations with MySQL.
-
-Proper validation and error handling should be implemented.
-
-Employee records should be correctly stored, retrieved, updated, and deleted from the database.
+Ensures proper logging for debugging and performance monitoring.

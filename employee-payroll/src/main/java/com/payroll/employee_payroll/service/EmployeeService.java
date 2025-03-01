@@ -156,4 +156,24 @@ public class EmployeeService implements IEmployeeService {
         }
         employeeRepository.deleteById(id);
     }
+
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    // Method to get employees from Sales department
+    public List<EmployeeEntity> getSalesDepartmentEmployees() {
+        log.info("Fetching employees from Sales department...");
+        List<EmployeeEntity> salesEmployees = employeeRepository.findEmployeesBySalesDepartment();
+
+        if (salesEmployees.isEmpty()) {
+            log.warn("No employees found in the Sales department.");
+        } else {
+            log.info("Successfully retrieved {} employees from Sales department.", salesEmployees.size());
+        }
+
+        return salesEmployees;
+    }
+
 }

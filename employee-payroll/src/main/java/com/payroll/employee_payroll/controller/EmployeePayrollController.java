@@ -157,4 +157,13 @@ public class EmployeePayrollController {
        employeeService.deleteEmployee(id);
         ResponseEntity.ok("Employee deleted successfully!");
     }
+
+    // Endpoint to fetch employees belonging to Sales department
+    @GetMapping("/service/get/sales")
+    public List<EmployeeEntity> getSalesDepartmentEmployees() {
+        log.info("Received request to fetch employees from Sales department.");
+        List<EmployeeEntity> employees = employeeService.getSalesDepartmentEmployees();
+        log.info("Returning {} employees from Sales department.", employees.size());
+        return employees;
+    }
 }
